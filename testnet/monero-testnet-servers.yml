@@ -1,0 +1,19 @@
+services:
+
+  node_0:
+    image: ${node_image}
+    build:
+      context: ${nodes_context}
+    hostname: ${node_0_hostname}
+    environment:
+      - node_2_hostname
+      - node_1_hostname
+    networks:
+      monero_testnet:
+
+networks:
+  monero_testnet:
+    ipam:
+      driver: default
+      config:
+        - subnet: ${network_prefix}.0/24
