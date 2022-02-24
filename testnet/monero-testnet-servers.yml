@@ -1,13 +1,14 @@
 services:
 
-  node_0:
-    image: ${node_image}
+  nodes:
+    image: ${nodes_image}
     build:
       context: ${nodes_context}
-    hostname: ${node_0_hostname}
-    environment:
-      - node_2_hostname
-      - node_1_hostname
+    volumes:
+      - nodes_root_testnet:/root/testnet
+    hostname: ${nodes_hostname}
+    ports:
+      - 9999:9999
     networks:
       monero_testnet:
 
@@ -17,3 +18,6 @@ networks:
       driver: default
       config:
         - subnet: ${network_prefix}.0/24
+
+volumes:
+  nodes_root_testnet:

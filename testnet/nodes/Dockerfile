@@ -35,7 +35,12 @@ RUN ln -s /src/monero /root && \
     make -j 6 && \
     cp xmrblocks /usr/local/bin
 
-COPY start-testnet.sh /
+RUN mkdir /src/testnet
+COPY start-testnet.sh /src/testnet
+COPY wallets/restore-wallets.sh /src/testnet
 
-ENTRYPOINT ["/start-testnet.sh"]
+RUN chmod 755 /src/testnet/start-testnet.sh
+RUN chmod 755 /src/testnet/restore-wallets.sh
+
+ENTRYPOINT ["/src/testnet/start-testnet.sh"]
 #CMD ["--p2p-bind-ip=0.0.0.0", "--p2p-bind-port=18080", "--rpc-bind-ip=0.0.0.0", "--rpc-bind-port=18081", "--non-interactive", "--confirm-external-bind"]
