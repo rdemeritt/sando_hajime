@@ -9,6 +9,8 @@ services:
     hostname: ${nodes_hostname}
     ports:
       - 9999:9999
+      - 28088:28088
+      - 28081:28081
     networks:
       monero_testnet:
 

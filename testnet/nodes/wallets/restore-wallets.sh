@@ -11,3 +11,7 @@ monero-wallet-cli --testnet --generate-new-wallet ~/testnet/wallet_02.bin  --res
 monero-wallet-cli --testnet --generate-new-wallet ~/testnet/wallet_03.bin  --restore-deterministic-wallet \
 --electrum-seed="upstairs arsenic adjust emulate karate efficient demonstrate weekday kangaroo yoga huts seventh goes heron sleepless fungal tweezers zigzags maps hedgehog hoax foyer jury knife karate" \
 --password "" --log-file ~/testnet/wallet_03.log
+
+monero-wallet-cli --testnet --generate-new-wallet ~/testnet/wallet_04.bin  --restore-deterministic-wallet \
+--electrum-seed="zigzags lodge giddy narrate toffee efficient washing paper betting obliged plywood upgrade broken afar mews agile younger dedicated rumble irony fences mocked budget useful younger" \
+--password "" --log-file ~/testnet/wallet_04.log

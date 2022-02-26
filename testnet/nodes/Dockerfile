@@ -33,14 +33,17 @@ RUN ln -s /src/monero /root && \
     cd onion-monero-blockchain-explorer/build && \
     cmake .. && \
     make -j 6 && \
-    cp xmrblocks /usr/local/bin
+    ln -s /src/onion-monero-blockchain-explorer/build/xmrblocks /usr/local/bin
 
 RUN mkdir /src/testnet
 COPY start-testnet.sh /src/testnet
 COPY wallets/restore-wallets.sh /src/testnet
+COPY wallets/wallet.sh /src/testnet
+COPY node-*.conf /src/testnet/
 
 RUN chmod 755 /src/testnet/start-testnet.sh
 RUN chmod 755 /src/testnet/restore-wallets.sh
+RUN chmod 755 /src/testnet/wallet.sh
 
 ENTRYPOINT ["/src/testnet/start-testnet.sh"]
 #CMD ["--p2p-bind-ip=0.0.0.0", "--p2p-bind-port=18080", "--rpc-bind-ip=0.0.0.0", "--rpc-bind-port=18081", "--non-interactive", "--confirm-external-bind"]
