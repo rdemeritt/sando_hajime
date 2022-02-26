@@ -1,14 +1,13 @@
-import json
 import config
 from monero.seed import Seed
 
 
-def main():
-    print(json.dumps(generate_wallets(10), indent=4))
+def generate_wallets(_quantity, _net=None):
+    if not _net:
+        net = config.args.net
+    else:
+        net = _net
 
-
-def generate_wallets(_quantity, _net='test'):
-    _net = config.args.net
     wallets = []
     while _quantity > 0:
         try:
@@ -24,7 +23,7 @@ def generate_wallets(_quantity, _net='test'):
             "secret_view_key": wallet.secret_view_key(),
             "public_spend_key": wallet.public_spend_key(),
             "public_view_key": wallet.public_view_key(),
-            "public_address": str(wallet.public_address(net=_net))
+            "public_address": str(wallet.public_address(net=net))
         }
 
         config.logger.debug(wallet_dict)
@@ -32,10 +31,3 @@ def generate_wallets(_quantity, _net='test'):
         _quantity -= 1
     config.logger.debug(f'{len(wallets)} {wallets}')
     return wallets
-
-
-# kick off the whole thing
-if __name__ == '__main__':
-    config.init()
-    config.logger.info('Starting')
-    main()

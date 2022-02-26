@@ -25,6 +25,10 @@ def init():
         log_level = getattr(logging, args.log_level.upper())
     logger = build_logger()
 
+    logger.debug(f'start_time: {start_time}')
+    logger.debug(f'args: {args}')
+    logger.debug(f'logger: {logger}')
+
 
 # define global variables
 start_time = None
