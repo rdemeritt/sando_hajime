@@ -1,18 +1,60 @@
 services:
 
-  nodes:
-    image: ${nodes_image}
+  node-1:
+    image: ${node_image}
     build:
       context: ${nodes_context}
+    container_name: node-1
+    command:
+      - "--config-file"
+      - "/home/monero/node-1.conf"
     volumes:
-      - nodes_root_testnet:/root/testnet
-    hostname: ${nodes_hostname}
-    ports:
-      - 9999:9999
-      - 28088:28088
-      - 28081:28081
+      - node-1:/home/monero/.bitmonero
+    hostname: node-1
     networks:
       monero_testnet:
+
+  node-2:
+    image: ${node_image}
+    build:
+      context: ${nodes_context}
+    container_name: node-2
+    command:
+      - "--config-file"
+      - "/home/monero/node-2.conf"
+    volumes:
+      - node-2:/home/monero/.bitmonero
+    hostname: node-2
+    networks:
+      monero_testnet:
+
+  node-3:
+    image: ${node_image}
+    build:
+      context: ${nodes_context}
+    container_name: node-3
+    command:
+      - "--config-file"
+      - "/home/monero/node-3.conf"
+    volumes:
+      - node-3:/home/monero/.bitmonero
+    hostname: node-3
+    networks:
+      monero_testnet:
+
+  explorer:
+    image: ${explorer_image}
+    build:
+      context: ${explorer_context}
+    container_name: onion-explorer
+    volumes:
+      - node-1:/home/monero/.bitmonero
+    hostname: onion-explorer
+    networks:
+      monero_testnet:
+    ports:
+      - 9999:9999
+    command: ["./xmrblocks -t -d http://node-1:28081 -p 9999 -b /home/monero/.bitmonero/testnet/lmdb --no-blocks-on-index 50 --enable-as-hex --enable-pusher"]
 
 networks:
   monero_testnet:
@@ -22,4 +64,6 @@ networks:
         - subnet: ${network_prefix}.0/24
 
 volumes:
-  nodes_root_testnet:
+  node-1:
+  node-2:
+  node-3:

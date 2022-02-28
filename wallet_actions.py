@@ -1,12 +1,22 @@
+from subprocess import Popen, PIPE
 import config
 from monero.seed import Seed
 
+import utilities
+
+
+def generate_view_only_wallet(_address, _secret_spend_key, _host='localhost', _port='28081', _net=None):
+    net = utilities.set_net()
+
+    vo_wallet = Popen(['monero-wallet-cli',
+                       f'--{net}net',
+                       '--daemon-address',
+                       f'{_host}:{_port}'],
+                      stdout=PIPE, encoding='utf8')
+
 
 def generate_wallets(_quantity, _net=None):
-    if not _net:
-        net = config.args.net
-    else:
-        net = _net
+    net = utilities.set_net()
 
     wallets = []
     while _quantity > 0:

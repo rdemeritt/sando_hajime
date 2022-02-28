@@ -4,6 +4,15 @@ common functions and utilities that i use...
 
 from time import time
 import json
+import config
+
+
+def set_net(_net=None):
+    if not _net:
+        net = config.args.net
+    else:
+        net = _net
+    return net
 
 
 def unix_time_now():

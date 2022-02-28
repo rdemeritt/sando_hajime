@@ -1,6 +1,6 @@
 import json
 import config
-from generate_wallets import generate_wallets
+from wallet_actions import generate_wallets
 
 
 def main():

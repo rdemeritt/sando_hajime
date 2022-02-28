@@ -1,49 +1,41 @@
+# build image
+FROM monero-builder:latest as builder
+
+#WORKDIR /src
+#
+#RUN cd monero &&  \
+#    git checkout release-v0.17 && \
+#    git submodule update --init --force && \
+#    make -j 6 release
+
+# deployment image
 FROM ubuntu:20.04
 
-RUN apt-get -y update && \
-    DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC \
-    apt-get -y install git libgtest-dev build-essential cmake pkg-config libssl-dev  \
-                libzmq3-dev libunbound-dev libsodium-dev libunwind8-dev  \
-                liblzma-dev libreadline6-dev libldns-dev libexpat1-dev  \
-                libpgm-dev qttools5-dev-tools libhidapi-dev libusb-1.0-0-dev  \
-                libprotobuf-dev protobuf-compiler libudev-dev libboost-chrono-dev  \
+# Install remaining dependencies
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y curl libnorm-dev libpgm-dev libgssapi-krb5-2 libboost-chrono-dev \
                 libboost-date-time-dev libboost-filesystem-dev libboost-locale-dev  \
                 libboost-program-options-dev libboost-regex-dev libboost-serialization-dev  \
-                libboost-system-dev libboost-thread-dev ccache doxygen graphviz libcurl4-openssl-dev
+                libboost-system-dev libboost-thread-dev libzmq3-dev libreadline6-dev libhidapi-dev libunbound-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN cd /usr/src/gtest && \
-    cmake . && \
-    make
+# Add user and setup directories for monerod
+RUN useradd -ms /bin/bash monero && \
+    mkdir -p /home/monero/.bitmonero && \
+    chown -R monero:monero /home/monero/.bitmonero
+USER monero
 
-WORKDIR /src
+# Switch to home directory and install newly built monerod binary
+WORKDIR /home/monero
+COPY --chown=monero:monero --from=builder /src/monero/build/Linux/release-v0.17/release/bin /usr/local/bin
 
-RUN git clone --recursive https://github.com/monero-project/monero
+# copy node config files to running host
+COPY --chown=monero:monero *.conf /home/monero/
 
-RUN cd monero &&  \
-    git checkout release-v0.17 && \
-    git submodule update --init --force && \
-    make -j 6 release && \
-    ln -s /src/monero/build/Linux/release-v0.17/release/bin/* /usr/local/bin
+# Add HEALTHCHECK against get_info endpoint
+HEALTHCHECK --interval=30s --timeout=5s CMD curl --fail http://localhost:28081/get_info || exit 1
 
-# build xmrblocks
-RUN ln -s /src/monero /root && \
-    ln -s /src/monero/build/Linux/release-v0.17 /src/monero/build/Linux/master && \
-    git clone https://github.com/moneroexamples/onion-monero-blockchain-explorer.git && \
-    mkdir onion-monero-blockchain-explorer/build && \
-    cd onion-monero-blockchain-explorer/build && \
-    cmake .. && \
-    make -j 6 && \
-    ln -s /src/onion-monero-blockchain-explorer/build/xmrblocks /usr/local/bin
-
-RUN mkdir /src/testnet
-COPY start-testnet.sh /src/testnet
-COPY wallets/restore-wallets.sh /src/testnet
-COPY wallets/wallet.sh /src/testnet
-COPY node-*.conf /src/testnet/
-
-RUN chmod 755 /src/testnet/start-testnet.sh
-RUN chmod 755 /src/testnet/restore-wallets.sh
-RUN chmod 755 /src/testnet/wallet.sh
-
-ENTRYPOINT ["/src/testnet/start-testnet.sh"]
-#CMD ["--p2p-bind-ip=0.0.0.0", "--p2p-bind-port=18080", "--rpc-bind-ip=0.0.0.0", "--rpc-bind-port=18081", "--non-interactive", "--confirm-external-bind"]
+# Start monerod
+ENTRYPOINT ["monerod", "--non-interactive"]
+CMD ["--config-file", "node.conf"]
