@@ -15,7 +15,7 @@ FROM ubuntu:20.04
 RUN apt-get update && \
     apt-get install --no-install-recommends -y curl libnorm-dev libpgm-dev libgssapi-krb5-2 libboost-chrono-dev \
                 libboost-date-time-dev libboost-filesystem-dev libboost-locale-dev  \
-                libboost-program-options-dev libboost-regex-dev libboost-serialization-dev  \
+                libboost-program-options-dev libboost-regex-dev libboost-serialization-dev  libprotobuf-dev \
                 libboost-system-dev libboost-thread-dev libzmq3-dev libreadline6-dev libhidapi-dev libunbound-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
