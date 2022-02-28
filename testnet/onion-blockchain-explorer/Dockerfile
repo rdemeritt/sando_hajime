@@ -28,8 +28,6 @@ WORKDIR /home/monero
 COPY --chown=monero:monero --from=builder /src/onion-monero-blockchain-explorer/build/xmrblocks .
 COPY --chown=monero:monero --from=builder /src/onion-monero-blockchain-explorer/build/templates ./templates/
 
-# Start monerod
-#ENTRYPOINT ["./xmrblocks"]
-#CMD ["-p 9999"]
+# Start xmrblocks
 ENTRYPOINT ["/bin/sh", "-cx"]
 CMD ["./xmrblocks --enable-json-api --enable-autorefresh-option  --enable-pusher"]

@@ -56,6 +56,19 @@ services:
       - 9999:9999
     command: ["./xmrblocks -t -d http://node-1:28081 -p 9999 -b /home/monero/.bitmonero/testnet/lmdb --no-blocks-on-index 50 --enable-as-hex --enable-pusher"]
 
+  wallets:
+    image: ${wallets_image}
+    build:
+      context: ${wallets_context}
+    container_name: wallets-rpc-server
+    volumes:
+      - wallets:/home/monero/wallets
+    hostname: wallets-rpc-server
+    networks:
+      monero_testnet:
+    ports:
+      - 28088:28088
+
 networks:
   monero_testnet:
     ipam:
@@ -67,3 +80,4 @@ volumes:
   node-1:
   node-2:
   node-3:
+  wallets:
