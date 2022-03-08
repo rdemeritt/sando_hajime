@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>XMR Donations Home</h1>
+  <p>Welcome to XMR Donations, a place where you can give money to others!</p>
+  <h2>Dynamic content</h2>
+  <p>The Donation page has the following fundraisers:</p>
+  <ul>
+    <li><strong>Fundraisers:</strong> {{ num_fundraisers }}</li>
+  </ul>
+{% endblock %}
