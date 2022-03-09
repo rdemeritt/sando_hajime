@@ -22,3 +22,8 @@ def index(request):
         'last_visited': last_visited,
     }
     return render(request, 'index.html', context=context)
+
+
+def about(request):
+    context = {}
+    return render(request, 'about.html', context=context)
