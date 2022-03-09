@@ -2,12 +2,12 @@
 
 {% block content %}
   <h1>XMR Donations Home</h1>
-  <p>Welcome to XMR Donations, a place where you can give money to others!</p>
+  <p>Welcome to XMR Fundraisers, a place where you can give money to others!</p>
   <h2>Dynamic content</h2>
-  <p>The Donation page has the following fundraisers:</p>
+  <p>We currently have the following fundraisers:</p>
   <ul>
-    <li><strong>Fundraisers: </strong>{{ num_fundraisers }}</li>
-    <li><strong>Total Raised: </strong>{{ total_raised }} XMR</li>
-    <li><strong>Last Visited: </strong>{{ last_visited }}</li>
+        <li><strong>Fundraiser: </strong>{{ name }}</li>
+        <li><strong>Organizer: </strong>{{ organizer }} XMR</li>
+        <li><strong>Total Raised: </strong>{{ total_raised }}</li>
   </ul>
 {% endblock %}
