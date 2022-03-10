@@ -1,12 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Organizer, Fundraiser, Update, Comment, Contribution
+from .models import Fundraiser, Contribution
 from datetime import datetime
-from django.views import generic
-
-
-class FundraiserListView(generic.ListView):
-    model = Fundraiser
 
 
 def index(request):
@@ -17,6 +12,7 @@ def index(request):
             t_donations += c.amount
         fundraiser = {
             'name': fr.title,
+            # 'url': fr.get_absolute_url(),
             'organizer': fr.organizer.__str__(),
             'total_raised': t_donations,
         }

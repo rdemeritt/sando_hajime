@@ -18,15 +18,20 @@ from django.urls import include, path
 from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
+from . import views
 
 urlpatterns = [
+    path('', views.index, name='index'),
+    path('accounts/login/', auth_views.LoginView.as_view(template_name="accounts/login.html"), name='login'),
+    path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('campaign/', include('campaign.urls')),
     path('admin/', admin.site.urls),
 ]
 
 # Add URL maps to redirect the base URL to our application
 urlpatterns += [
-    path('', RedirectView.as_view(url='campaign/', permanent=True)),
+    # path('', RedirectView.as_view(url='campaign/', permanent=True)),
 ]
 
 # Use static() to add url mapping to serve static files during development (only)

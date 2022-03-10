@@ -12,8 +12,9 @@
 {% for f in fundraisers %}
 <ul>
     <li><strong>Fundraiser: </strong>{{ f.name }}</li>
-    <li><strong>Organizer: </strong>{{ f.organizer }} XMR</li>
-    <li><strong>Total Raised: </strong>{{ f.total_raised }}</li>
+<!--    <li><strong>Fundraiser URL: </strong>{{ f.url }}</li>-->
+    <li><strong>Organizer: </strong>{{ f.organizer }}</li>
+    <li><strong>Total Raised: </strong>{{ f.total_raised }} XMR</li>
 </ul>
 {% endfor %}
 {% endif %}
