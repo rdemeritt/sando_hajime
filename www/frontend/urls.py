@@ -25,8 +25,8 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('accounts/login/', auth_views.LoginView.as_view(template_name="accounts/login.html"), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('campaign/', include('campaign.urls')),
     path('admin/', admin.site.urls),
+    path('campaign/', include('campaign.urls')),
 ]
 
 # Add URL maps to redirect the base URL to our application

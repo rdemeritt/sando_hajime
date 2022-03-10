@@ -1,0 +1,27 @@
+<div class="container-fluid">
+    <div class="row align-items-start">
+        <div class="col">
+            {% url 'index' as index_url %}
+            {% if request.path == index_url %}
+                Home
+            {% else %}
+            <a href="{% url 'index' %}">Home</a>
+            {% endif %}
+        </div>
+        <div class="col">
+            {% url 'campaigns' as campaigns_url %}
+            {% if request.path == campaigns_url %}
+                Campaigns
+            {% else %}
+            <a href="{% url 'campaigns' %}">Campaigns</a>
+            {% endif %}
+        </div>
+        <div class="col-auto offset-md-6">
+            {% if user.is_authenticated %}
+            Hi, {{ user.username }}! - <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </div>
+    </div>
+</div>

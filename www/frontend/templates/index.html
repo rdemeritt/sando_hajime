@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>XMR Donations Home</h1>
+
+<p>Welcome to XMR Fundraisers, a place where you can give money to others!</p>
+
+<h2>Dynamic content</h2>
+<p>We currently have the following fundraisers:</p>
+
+{% if fundraisers %}
+{% for f in fundraisers %}
+<ul>
+    <li><strong>Fundraiser: </strong>{{ f.name }}</li>
+<!--    <li><strong>Fundraiser URL: </strong>{{ f.url }}</li>-->
+    <li><strong>Organizer: </strong>{{ f.organizer }}</li>
+    <li><strong>Total Raised: </strong>{{ f.total_raised }} XMR</li>
+</ul>
+{% endfor %}
+{% endif %}
+{% endblock %}
