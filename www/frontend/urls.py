@@ -23,8 +23,10 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('accounts/login/', auth_views.LoginView.as_view(template_name="accounts/login.html"), name='login'),
+    path('about/', views.about, name='about'),
+    path('accounts/login/', views.UserLogin.as_view(template_name="accounts/login.html"), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('accounts/profile/', views.profile, name='profile'),
     path('admin/', admin.site.urls),
     path('campaign/', include('campaign.urls')),
 ]

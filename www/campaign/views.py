@@ -2,8 +2,10 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Fundraiser, Contribution
 from datetime import datetime
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def index(request):
     fundraisers = []
     for fr in Fundraiser.objects.all():
@@ -18,8 +20,3 @@ def index(request):
         }
         fundraisers.append(fundraiser)
     return render(request, 'index.html', context={'fundraisers': fundraisers})
-
-
-def about(request):
-    context = {}
-    return render(request, 'about.html', context=context)
